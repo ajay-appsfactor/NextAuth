@@ -1,13 +1,17 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
-import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function AdminLayout({ children }) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
+
+  // const user = await prisma.user.findUnique({
+  //   where: { email: session.user.email },
+  // });
 
   if (!session || session.user.role !== "admin") {
-    redirect("/unauthorized")
+    redirect("/unauthorized");
   }
 
-  return <>{children}</>
+  return <section>{children}</section>;
 }

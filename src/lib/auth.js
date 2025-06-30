@@ -21,7 +21,7 @@ export const authOptions = {
 
           // Return minimal user object
           return {
-            id: user.id,
+            id: user.user_key,
             email: user.email,
             role: user.role,
             name: `${user.first_name} ${user.last_name}`,
