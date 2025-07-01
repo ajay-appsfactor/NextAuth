@@ -1,10 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Pencil, ArrowLeft } from 'lucide-react';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { Pencil, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default async function CustomerProfilePage({ params }) {
-  const { id } = await params;
+export default async function CustomerProfilePage() {
+  const session = await getServerSession(authOptions);
+  const id = session.user.id;
+  console.log("customer session id", session.user.id);
 
   const customer = await prisma.user.findUnique({
     where: {
@@ -57,33 +62,19 @@ export default async function CustomerProfilePage({ params }) {
         </div>
 
         <div className="mt-6 flex gap-4 justify-center">
-          <Link
-        href={`/dashboard/customer/${customer.user_key}/edit`}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
-      >
-        <Pencil size={16} />
-        Edit Profile
-      </Link>
+          <Button asChild variant="default" className="gap-2">
+            <Link href="/customer/edit">
+              <Pencil size={16} />
+              Edit Profile
+            </Link>
+          </Button>
 
-          <Link
-            href={`/dashboard/customer`}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Link>
-          {/* <form method="POST" action={`/api/customer/${customer.user_key}/delete`}>
-            <button
-              type="submit"
-              className={`px-4 py-2 text-sm rounded transition ${
-                isDeleted
-                  ? "bg-green-600 text-white hover:bg-green-700"
-                  : "bg-red-600 text-white hover:bg-red-700"
-              }`}
-            >
-              {isDeleted ? "♻️ Restore" : "🗑️ Delete"}
-            </button>
-          </form> */}
+          <Button asChild variant="secondary" className="gap-2">
+            <Link href="/customer">
+              <ArrowLeft size={16} />
+              Back
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

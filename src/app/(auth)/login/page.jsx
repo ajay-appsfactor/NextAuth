@@ -37,9 +37,9 @@ export default function LoginPage() {
           const session = await sessionRes.json();
           const role = session?.user?.role;
 
-          if (role === "admin") router.push("/dashboard/admin");
-          else if (role === "customer") router.push("/dashboard/customer");
-          else router.push("/dashboard");
+          if (role === "admin") router.push("/admin");
+          else if (role === "customer") router.push("/customer");
+          else router.push("/login");
         } else {
           setServerError("Invalid email or password.");
         }

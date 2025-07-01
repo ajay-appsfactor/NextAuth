@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-export async function POST(req, { params }) {
+export async function PUT(req, { params }) {
   const { id } = await params;
   console.log("Customer backend id :", id)
   const data = await req.json();
