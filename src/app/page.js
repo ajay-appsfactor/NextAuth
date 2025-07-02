@@ -17,6 +17,6 @@ export default async function Home() {
   }
 
   if (role === "customer") {
-    redirect("/customer")
+    redirect("/dashboard")
   }
 }

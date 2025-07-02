@@ -10,24 +10,19 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import LoginImage from "../../../../public/login_user.jpg";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Lock } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function LoginPage() {
+const ResetPage = () => {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
 
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: "" },
     validationSchema: Yup.object({
       email: Yup.string()
         .email("Invalid email")
-        .required("Please complete this required field."),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
         .required("Please complete this required field."),
     }),
     onSubmit: async (values) => {
@@ -46,7 +41,7 @@ export default function LoginPage() {
           const role = session?.user?.role;
 
           if (role === "admin") router.push("/admin");
-          else if (role === "customer") router.push("/dashboard/customer");
+          else if (role === "customer") router.push("/customer");
           else router.push("/login");
         } else {
           setServerError("Invalid email or password.");
@@ -57,7 +52,6 @@ export default function LoginPage() {
       }
     },
   });
-
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-6">
       {/* Left Side (Form) — smaller (2/5) on lg+ */}
@@ -74,17 +68,14 @@ export default function LoginPage() {
 
         {/* Form */}
         <div className="w-full max-w-md mx-auto">
-          <h2 className="text-2xl font-bold mb-6">Log In</h2>
-          <div className="mb-6 text-md">
-            Welcome! Please fill email and password to log in into your account.
-          </div>
+          <h2 className="text-2xl font-bold mb-6">Reset Password</h2>
 
           {serverError && (
-            <Alert
-              variant="destructive"
-              className="bg-red-100 text-red-500 border-red-500 mb-4"
-            >
-               <AlertTitle className="text-center text-sm"> {serverError}</AlertTitle>
+            <Alert variant="destructive" className="mb-4">
+              <AlertTitle className="text-center">Error</AlertTitle>
+              <AlertDescription className="text-sm text-center">
+                {serverError}
+              </AlertDescription>
             </Alert>
           )}
 
@@ -109,58 +100,22 @@ export default function LoginPage() {
                 </p>
               )}
             </div>
-
-            <div className="relative">
-              <Label htmlFor="password" className="mb-2">
-                Password<span className="text-rose-500">*</span>
-              </Label>
-              <Input
-                id="password"
-                name="password"
-                className="h-12"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[38px] text-gray-500"
-              >
-                {showPassword ? (
-                  <EyeOffIcon size={18} />
-                ) : (
-                  <EyeIcon size={18} />
-                )}
-              </button>
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-sm text-red-500 mt-1">
-                  {formik.errors.password}
-                </p>
-              )}
-            </div>
-
-            {/* Forget Password */}
+            {/* Back To Login */}
             <p className="text-sm text-muted-foreground text-end mt-6">
-              <Link
-                href="/reset-password"
-                className="text-primary hover:underline"
-              >
-                Forget your password?
+              <Link href="/login" className="text-primary hover:underline">
+                Back To Login
               </Link>
             </p>
 
             <Button
               type="submit"
-              className="w-full flex justify-center items-center gap-2 cursor-pointer mt-7 h-12"
+              className="w-full flex justify-center items-center gap-2 cursor-pointer mt-7 h-14"
               disabled={formik.isSubmitting}
             >
               {formik.isSubmitting && (
                 <Loader2 className="w-4 h-4 animate-spin" />
               )}
-              {formik.isSubmitting ? "Logging in..." : "LOGIN NOW"}
+              {formik.isSubmitting ? "Logging in..." : "CONTINUE"}
             </Button>
           </form>
         </div>
@@ -178,4 +133,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ResetPage;

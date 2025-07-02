@@ -1,15 +1,12 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import Providers from "./providers";
+import ToastProvider from "@/components/providers/ToastProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -20,10 +17,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Providers>{children}</Providers>
+      <body className={`${inter.className} ${inter.className} antialiased`}>
+        <Providers>
+          {children}
+          <ToastProvider />
+        </Providers>
       </body>
     </html>
   );

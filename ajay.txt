@@ -1,3 +1,69 @@
+Login
+Forget Password
+DAshboard - > Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -42,3 +108,6 @@ const CustomerPage = async () => {
 };
 
 export default CustomerPage;
+
+
+
